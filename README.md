@@ -44,3 +44,30 @@ Or for an advanced user or where the JIKI implementation of JQL is insufficient:
 ```
 <jira jql="project = GO AND reporter in (gvoss)"></jira>
 ```
+Default Filter Fields
+=====================
+1. id - synonymous with key
+1. key - the Key of the issue (e.g. ABCD-1234)
+1. issuetype - the type of issue (e.g. bug)
+1. project - the key of the project (e.g. ABCD)
+1. fixversion - the fix version (e.g. 1.0.0)
+1. affectedversion - the affected version (e.g. 1.0.0)
+1. reporter - username of the reporter (e.g. gvoss)
+1. assignee - username of the assignee (e.g. gvoss)
+1. status - name of the status (e.g. In Progress)
+1. sprint - ID or exact name of the sprint (e.g. 786)
+1. resolution - status of the resolution (e.g. resolved)
+1. labels - any labels applied to the issues (e.g. cats)
+1. component - any components applied to the issues (e.g. content management)
+1. epiclink - name of the epic link (e.g. loading screen)
+Formatting
+==========
+The following parameters exist to allow controlling of format:
+1. **jikiformat** - allows you to control the formating
+```
+<jira jikiformat="html"></jira>
+```
+1. **jikifulldetails** - allows you to control how much detail is printed to the screen
+```
+<jira jikifulldetails="true"></jira>
+```
