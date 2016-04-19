@@ -1,12 +1,10 @@
-JIKI
-====
-Embed a list of issues from a JIRA instance into a Mediawiki wiki page.
+**JIKI** - Embed a list of issues from a JIRA instance into a Mediawiki wiki page.
 Configuration
 =============
 In LocalSettings specify the JIRA Hostname:
 ```php
 $jikiJiraHost     = "https://jira.atlassian.com";
-```
+``
 Specify the JIRA User Name:
 ```php
 $jikiJiraUser     = "user@example.com";
@@ -60,6 +58,7 @@ Default Filter Fields
 1. labels - any labels applied to the issues (e.g. cats)
 1. component - any components applied to the issues (e.g. content management)
 1. epiclink - name of the epic link (e.g. loading screen)
+
 Formatting
 ==========
 The following parameters exist to allow controlling of format:
