@@ -7,7 +7,9 @@ if(!defined("MEDIAWIKI"))
 #jikiSupportedParams - base parameters supported by Jiki
 $jikiSupportedParams = array
 (
-  "id",#or is this key??
+  "id",
+  "key",
+  "issuetype",
   "project",
   "fixversion",
   "affectedversion",
@@ -16,8 +18,10 @@ $jikiSupportedParams = array
   "priority",
   "type",
   "status",
+  "sprint",
   "resolution",
   "labels",
+  "component",
   "description",
   "createddate",
   "updateddate",
@@ -62,7 +66,7 @@ function jikiRender($input,$args,$parser)
   global $jikiJiraHost,$jikiJiraUser,$jikiJiraPassword,$jikiSupportedParams;#Configuration from the LocalSettings
   $jikiJQL = "";#jql to send to JIRA
   $jikiOutput = "";#output to the wiki page
-  $jikiFormat = "Simple";#How to format JIKI output
+  $jikiFormat = "html";#How to format JIKI output
   $jikiFullDetails = false;#Whether or not to show full ticket details
   $jikiLinkToJira = true;#Whether to include a link to JIRA
   if(!isset($jikiJiraHost)||!isset($jikiJiraUser)||!isset($jikiJiraPassword))#No Configuration
@@ -97,7 +101,7 @@ function jikiRender($input,$args,$parser)
   {
     $jikiFullDetails = true;
   }
-  if(isset($args["id"]))#user specified a single issue
+  if(isset($args["id"])||isset($args["key"]))#user specified a single issue
   {
     $jikiLinkToJira = false;
   }

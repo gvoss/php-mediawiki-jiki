@@ -4,6 +4,9 @@ if(!defined("MEDIAWIKI"))
    echo("This file is an extension to the MediaWiki software and cannot be used standalone.\n");
    die(1);
 }
+define("JIKI_VIEW_HTML_GREY","background-color:#4a6785;border-color:#4a6785;color:#FFFFFF;border-radius:3px;padding:1px 3px;");
+define("JIKI_VIEW_HTML_ORANGE","background-color:#ffd351;border-color:#ffd351;color:#594300;border-radius:3px;padding:1px 3px;");
+define("JIKI_VIEW_HTML_GREEN","background-color:#14892c;border-color:#14892c;color:#FFFFFF;border-radius:3px;padding:1px 3px;");
 /**
  * an HTML renderer for JIRA data
  */
@@ -22,7 +25,34 @@ class Hypertext
       $renderedView.= "<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/> ";
       $renderedView.= "<strong>{$issue["key"]}</strong> ";
       $renderedView.= "<a href=\"".JIRA::getIssueURL($data["host"],$issue["key"])."\" target=\"_BLANK\">{$issue["fields"]["summary"]}</a> ";
-      $renderedView.= "({$issue["fields"]["status"]["name"]}) ";
+      $statusStyle = JIKI_VIEW_HTML_GREY;
+      if(isset($issue["fields"]["status"]["statusCategory"]))#JIRA provides color
+      {
+        #TODO: identify how to use ids for status names or just configure this
+        switch(strtolower($issue["fields"]["status"]["statusCategory"]["colorName"]))
+        {
+          case "green":
+          {
+            $statusStyle = JIKI_VIEW_HTML_GREEN;
+            break;
+          }
+          case "yellow":
+          {
+            $statusStyle = JIKI_VIEW_HTML_ORANGE;
+            break;
+          }
+          default:
+          {
+            $statusStyle = JIKI_VIEW_HTML_GREY;
+            break;
+          }
+        }
+        $renderedView.= "<span style=\"{$statusStyle}\">{$issue["fields"]["status"]["name"]}</span> ";
+      }
+      else#color not found
+      {
+        $renderedView.= "({$issue["fields"]["status"]["name"]}) ";
+      }
       if(isset($issue["fixVersions"]))
       {
         foreach($issue["fixVersions"] as $issueFixVersion)
