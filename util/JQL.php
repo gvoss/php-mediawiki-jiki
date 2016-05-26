@@ -105,17 +105,17 @@ class JQL
       array_push($conditions,"(issuetype not in subTaskIssueTypes())");
     }
     $jql.= implode(" AND ",$conditions);
-    if(!isset($args["orderBy"]))
+    if(!isset($args["orderby"]))
     {
-      $args["orderBy"] = "createdDate DESC";
+      $args["orderby"] = "createdDate DESC";
     }
-    if(isset($args["orderBy"]))#handle Order By
+    if(isset($args["orderby"]))#handle Order By
     {
       if($jql!=="")
       {
         $jql.= " ";
       }
-      $jql.= "ORDER BY {$args["orderBy"]}";
+      $jql.= "ORDER BY {$args["orderby"]}";
     }
     return $jql;
   }
