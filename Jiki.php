@@ -4,6 +4,18 @@ if(!defined("MEDIAWIKI"))
    echo("This file is an extension to the MediaWiki software and cannot be used standalone.\n");
    die(1);
 }
+$wgExtensionCredits["parserhook"][] = array
+(
+  "path" => __FILE__,
+  "name" => "JIKI",
+  "namemsg" => "JIKI",
+  "description" => "JIKI - JIRA in your WIKI",
+  "descriptionmsg" => "JIKI - JIRA in your WIKI",
+  "version" => "1.0",
+  "author" => "gvoss",
+  "url" => "https://github.com/gvoss/php-mediawiki-jiki",
+  "license-name" => "https://github.com/gvoss/php-mediawiki-jiki/blob/master/LICENSE",
+);
 #jikiSupportedParams - base parameters supported by Jiki
 $jikiSupportedParams = array
 (
