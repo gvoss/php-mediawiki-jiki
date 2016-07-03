@@ -14,7 +14,7 @@ class Simple
    *
    * @param array data the array of data to be rendered
    */
-  function getRenderedView(&$data,$args=array())
+  function getRenderedView($format,&$data,$args=array())
   {
     $renderedView = "";
     foreach($data["data"] as $issue)

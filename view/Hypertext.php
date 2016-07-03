@@ -17,14 +17,15 @@ class Hypertext
    *
    * @param array data the array of data to be rendered
    */
-  function getRenderedView(&$data,$args=array())
+  function getRenderedView($format,&$data,$args=array())
   {
-    $renderedView = "";
+    $rView = "";#container for the whole view
     foreach($data["data"] as $issue)
     {
-      $renderedView.= "<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/> ";
-      $renderedView.= "<strong>{$issue["key"]}</strong> ";
-      $renderedView.= "<a href=\"".JIRA::getIssueURL($data["host"],$issue["key"])."\" target=\"_BLANK\">{$issue["fields"]["summary"]}</a> ";
+      $rIssue = "";#container for an issue
+      $rIssue.= self::wrapField($format,"<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/>");
+      $rIssue.= self::wrapField($format,"<strong>{$issue["key"]}</strong>");
+      $rIssue.= self::wrapField($format,"<a href=\"".JIRA::getIssueURL($data["host"],$issue["key"])."\" target=\"_BLANK\">{$issue["fields"]["summary"]}</a>");
       $statusStyle = JIKI_VIEW_HTML_GREY;
       if(isset($issue["fields"]["status"]["statusCategory"]))#JIRA provides color
       {
@@ -47,33 +48,111 @@ class Hypertext
             break;
           }
         }
-        $renderedView.= "<span style=\"{$statusStyle}\">{$issue["fields"]["status"]["name"]}</span> ";
+        $rIssue.= self::wrapField($format,"<span style=\"{$statusStyle}\">{$issue["fields"]["status"]["name"]}</span>");
       }
       else#color not found
       {
-        $renderedView.= "({$issue["fields"]["status"]["name"]}) ";
+        $rIssue.= self::wrapField($format,"({$issue["fields"]["status"]["name"]})");
       }
-      if(isset($issue["fixVersions"]))
-      {
-        foreach($issue["fixVersions"] as $issueFixVersion)
-        {
-          $renderedView.= "{$issueFixVersion["name"]} ";
-          if(isset($issueFixVersion["releaseDate"])&&isset($issueFixVersion["released"])&&$issueFixVersion["released"]===true)
-          {
-            $renderedView.= "({$issueFixVersion["releaseDate"]}) ";
-          }
-        }
-      }
+      #if(isset($issue["fixVersions"]))#TODO:refactor this
+      #{
+      #  foreach($issue["fixVersions"] as $issueFixVersion)
+      #  {
+      #    $renderedView.= "{$issueFixVersion["name"]} ";
+      #    if(isset($issueFixVersion["releaseDate"])&&isset($issueFixVersion["released"])&&$issueFixVersion["released"]===true)
+      #    {
+      #      $renderedView.= "({$issueFixVersion["releaseDate"]}) ";
+      #    }
+      #  }
+      #}
       if(isset($args["renderDetails"])&&$args["renderDetails"]===true)
       {
-        $renderedView.= "<br/><div style=\"text-indent: 20px;\">{$issue["renderedFields"]["description"]}</div>";
+        $rIssue.= self::wrapField($format,"<br/><div style=\"text-indent: 20px;\">{$issue["renderedFields"]["description"]}</div>");
       }
-      $renderedView.= "<br/>";
+      $rView.= self::wrapIssue($format,$rIssue);
     }
-    if(isset($args["renderLink"])&&$args["renderLink"]===true)
+    ##TODO: rework ho to handle the link here
+    #if(isset($args["renderLink"])&&$args["renderLink"]===true)
+    #{
+    #  $renderedView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
+    #}
+    $rView = self::wrapContainer($format,$rView);
+    return $rView;
+  }
+  /**
+   * wrapField - wrap an individual field with markup
+   *
+   * @param format the format of the html
+   * @param markup the markup to wrap
+   */
+  private function wrapField($format,$markup)
+  {
+    switch($format)
     {
-      $renderedView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
+      case "html.table":
+      {
+        if($markup===""){$markup="&nbsp;";}#cleanup
+        return "<td>{$markup}</td>";
+        break;
+      }
+      case default:
+      {
+        return "{$markup} ";
+        break;
+      }
     }
-    return $renderedView;
+  }
+  /**
+   * wrapField - wrap an individual field with markup
+   *
+   * @param format the format of the html
+   * @param markup the markup to wrap
+   */
+  private function wrapIssue($format,$markup)
+  {
+    switch($format)
+    {
+      case "html.table":
+      {
+        return "<tr>{$markup}<tr/>";
+        break;
+      }
+      case "html.bullets":
+      case "html.numbered":
+      {
+        return "<li>{$markup}</li>";
+      }
+      case default:
+      {
+        return "{$markup}<br/>";
+        break;
+      }
+    }
+  }
+  private function wrapContainer($format,$markup)
+  {
+    switch($format)
+    {
+      case "html.table":
+      {
+        return "<table><tbody>{$markup}</tbody></table>";
+        break;
+      }
+      case "html.bullets":
+      {
+        return "<ul>{$markup}</ul>";
+        break;
+      }
+      case "html.numbered":
+      {
+        return "<ol>{$markup}</ol>";
+        break;
+      }
+      case default:
+      {
+        return "{$markup}";
+        break;
+      }
+    }
   }
 }

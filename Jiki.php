@@ -107,7 +107,7 @@ function jikiRender($input,$args,$parser)
   }
   if(isset($args["jikiformat"]))#user specified a format
   {
-    $jikiFormat = $args["jikiformat"];
+    $jikiFormat = strtolower($args["jikiformat"]);
   }
   if(isset($args["jikifulldetails"])&&$args["jikifulldetails"]=="true")#user specified full ticket details
   {
@@ -128,13 +128,15 @@ function jikiRender($input,$args,$parser)
     switch(strtolower($jikiFormat))
     {
       case "html":
+      case "html.table":
+      case "html.bullets":
       {
-        $jikiOutput = Hypertext::getRenderedView($jikiDataContainer,$jikiRenderArgs);
+        $jikiOutput = Hypertext::getRenderedView($jikiFormat,$jikiDataContainer,$jikiRenderArgs);
         break;
       }
       default:
       {
-        $jikiOutput = Simple::getRenderedView($jikiDataContainer,$jikiRenderArgs);
+        $jikiOutput = Simple::getRenderedView($jikiFormat,$jikiDataContainer,$jikiRenderArgs);
         break;
       }
     }
