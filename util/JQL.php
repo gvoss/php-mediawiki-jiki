@@ -49,30 +49,22 @@ class JQL
         );
       foreach($argConditions as $anArgCondition)
       {
-        $escapeArg = false;
-        $notCondition = false;
-        $inCondition = true;
         $anArgCondition = trim($anArgCondition);
-        if(preg_match("/\s/",$anArgCondition)>0)
+        $anArgOperator = substr($anArgCondition,0,1);
+
+        switch($anArgOperator)
         {
-          $escapeArg = true;
-        }
-        if(substr($anArgCondition,0,1)==="!")#not condition
-        {
-          $anArgCondition = substr($anArgCondition,1);
-          $notCondition = true;
-        }
-        if($escapeArg===true)
-        {
-          $anArgCondition = "\"$anArgCondition\"";
-        }
-        if($notCondition===true)
-        {
-          array_push($jqlConditions[JIKI_JQL_COND_NOTIN],$anArgCondition);
-        }
-        else
-        {
-          array_push($jqlConditions[JIKI_JQL_COND_ANDIN],$anArgCondition);
+          case "!":#NOT condition
+          {
+            $anArgCondition = substr($anArgCondition,1);
+            array_push($jqlConditions[JIKI_JQL_COND_NOTIN],$self->escapeCondition($anArgCondition));
+            break;
+          }
+          default:
+          {
+            array_push($jqlConditions[JIKI_JQL_COND_ANDIN],$self->escapeCondition($anArgCondition));
+            break;
+          }
         }
       }
       foreach($jqlConditions as $type => $value)
@@ -118,5 +110,12 @@ class JQL
       $jql.= "ORDER BY {$args["orderby"]}";
     }
     return $jql;
+  }
+  private function escapeCondition($condition)
+  {
+    if(preg_match("/\s/",$condition)>0)
+    {
+      return "\"$condition\"";
+    }
   }
 }

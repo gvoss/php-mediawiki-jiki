@@ -71,12 +71,11 @@ class Hypertext
       }
       $rView.= self::wrapIssue($format,$rIssue);
     }
-    ##TODO: rework ho to handle the link here
-    #if(isset($args["renderLink"])&&$args["renderLink"]===true)
-    #{
-    #  $renderedView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
-    #}
     $rView = self::wrapContainer($format,$rView);
+    if(isset($args["renderLink"])&&$args["renderLink"]===true)
+    {
+      $rView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
+    }
     return $rView;
   }
   /**
@@ -103,7 +102,7 @@ class Hypertext
     }
   }
   /**
-   * wrapField - wrap an individual field with markup
+   * wrapField - wrap an individual issue with markup
    *
    * @param format the format of the html
    * @param markup the markup to wrap
@@ -129,6 +128,12 @@ class Hypertext
       }
     }
   }
+  /**
+   * wrapField - wrap a set of issues with markup
+   *
+   * @param format the format of the html
+   * @param markup the markup to wrap
+   */
   private function wrapContainer($format,$markup)
   {
     switch($format)
