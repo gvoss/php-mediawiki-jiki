@@ -94,7 +94,7 @@ class Hypertext
         return "<td>{$markup}</td>";
         break;
       }
-      case default:
+      default:
       {
         return "{$markup} ";
         break;
@@ -121,7 +121,7 @@ class Hypertext
       {
         return "<li>{$markup}</li>";
       }
-      case default:
+      default:
       {
         return "{$markup}<br/>";
         break;
@@ -153,7 +153,7 @@ class Hypertext
         return "<ol>{$markup}</ol>";
         break;
       }
-      case default:
+      default:
       {
         return "{$markup}";
         break;

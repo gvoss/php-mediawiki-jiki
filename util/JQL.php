@@ -57,12 +57,12 @@ class JQL
           case "!":#NOT condition
           {
             $anArgCondition = substr($anArgCondition,1);
-            array_push($jqlConditions[JIKI_JQL_COND_NOTIN],$self->escapeCondition($anArgCondition));
+            array_push($jqlConditions[JIKI_JQL_COND_NOTIN],self::escapeCondition($anArgCondition));
             break;
           }
           default:
           {
-            array_push($jqlConditions[JIKI_JQL_COND_ANDIN],$self->escapeCondition($anArgCondition));
+            array_push($jqlConditions[JIKI_JQL_COND_ANDIN],self::escapeCondition($anArgCondition));
             break;
           }
         }
