@@ -105,6 +105,9 @@ function jikiRender($input,$args,$parser)
   {
     $jikiDataContainer["jql"] = JQL::getJQL($input,$args,$jikiSupportedParams);
   }
+  #cleanup JQL to allow use of variables
+  # https://github.com/idimitrakopoulos/php-mediawiki-jiki/commit/dcf7c6b8824387a7c1a3a9dd6ef048ba84476988
+  $jikiDataContainer["jql"] = $parser->recursiveTagParse($jikiDataContainer["jql"]);
   if(isset($args["jikiformat"]))#user specified a format
   {
     $jikiFormat = strtolower($args["jikiformat"]);

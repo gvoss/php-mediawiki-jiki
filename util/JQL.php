@@ -115,7 +115,8 @@ class JQL
   {
     if(preg_match("/\s/",$condition)>0)
     {
-      return "\"$condition\"";
+      return "\"{$condition}\"";
     }
+    return "{$condition}";
   }
 }
