@@ -9,6 +9,8 @@ define("JIKI_REST_ENDPOINT","/rest/api/2/search");
 define("JIKI_REST_EXPAND","names,renderedFields");
 define("JIKI_REST_FIELDS","summary,description,issuetype,fixVersions,status");
 define("JIKI_REST_MAXRESULTS","250");
+# follow location
+# ssl verify
 /**
  * interract with JIRA REST API
  */
@@ -26,7 +28,8 @@ class Rest
   function getJIRAData(&$data,$host,$username,$password)
   {
     $data["host"] = "{$host}";
-    $data["endpoint"] = "{$host}".JIKI_REST_ENDPOINT.
+    $data["endpoint"] = "{$host}".
+      JIKI_REST_ENDPOINT.
       "?jql=".urlencode($data["jql"]).
       "&expand=".JIKI_REST_EXPAND.
       "&fields=".JIKI_REST_FIELDS.
@@ -59,14 +62,16 @@ class Rest
    */
   private function callJIRARest($url,$username,$password,$successCodes=array(200))
   {
+    global $jikiCurlVerifyPeer;
     $curl = curl_init("{$url}");
     curl_setopt_array(
       $curl,
       array
       (
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_USERAGENT => JIKI_USERAGENT,
         CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_USERAGENT => JIKI_USERAGENT,
+        CURLOPT_SSL_VERIFYPEER => (isset($jikiCurlVerifyPeer) ? $jikiCurlVerifyPeer : true),
         CURLOPT_HTTPHEADER => array
         (
           "Accept: application/json",

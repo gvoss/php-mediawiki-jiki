@@ -75,7 +75,7 @@ function jikiSetHook($parser)
 
 function jikiRender($input,$args,$parser)
 {
-  global $jikiJiraHost,$jikiJiraUser,$jikiJiraPassword,$jikiSupportedParams;#Configuration from the LocalSettings
+  global $jikiJiraHost,$jikiJiraUser,$jikiJiraPassword,$jikiSupportedParams,$jikiCurlVerifyPeer;#Configuration from the LocalSettings
   $jikiJQL = "";#jql to send to JIRA
   $jikiOutput = "";#output to the wiki page
   $jikiFormat = "html";#How to format JIKI output
@@ -85,6 +85,10 @@ function jikiRender($input,$args,$parser)
   {
     $jikiOutput = "No JIRA Configuration...";
     return $jikiOutput;
+  }
+  if(isset($jikiCurlVerifyPeer)&&!is_bool($jikiCurlVerifyPeer))
+  {
+    $jikiCurlVerifyPeer = true;#sane default
   }
   if(!filter_var($jikiJiraHost,FILTER_VALIDATE_URL))#Bad URL
   {

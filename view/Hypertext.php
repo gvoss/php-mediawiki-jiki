@@ -4,6 +4,8 @@ if(!defined("MEDIAWIKI"))
    echo("This file is an extension to the MediaWiki software and cannot be used standalone.\n");
    die(1);
 }
+#define some css to handle style of gems
+#TODO: figure out if mediawiki supports some kind of templating
 define("JIKI_VIEW_HTML_GREY","background-color:#4a6785;border-color:#4a6785;color:#FFFFFF;border-radius:3px;padding:1px 3px;");
 define("JIKI_VIEW_HTML_ORANGE","background-color:#ffd351;border-color:#ffd351;color:#594300;border-radius:3px;padding:1px 3px;");
 define("JIKI_VIEW_HTML_GREEN","background-color:#14892c;border-color:#14892c;color:#FFFFFF;border-radius:3px;padding:1px 3px;");
@@ -72,7 +74,7 @@ class Hypertext
       $rView.= self::wrapIssue($format,$rIssue);
     }
     $rView = self::wrapContainer($format,$rView);
-    if(isset($args["renderLink"])&&$args["renderLink"]===true)
+    if(isset($args["renderLink"])&&$args["renderLink"]===true&&sizeof($data["data"])>1)#show link to JIRA
     {
       $rView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
     }
