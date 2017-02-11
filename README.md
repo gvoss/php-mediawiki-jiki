@@ -1,4 +1,7 @@
 **JIKI** - Embed a list of issues from a JIRA instance into a Mediawiki wiki page.
+
+![JIKI Sample Image](https://upload.wikimedia.org/wikipedia/commons/2/21/Php-mediawiki-jiki-screenshot.png)
+
 Configuration
 =============
 In mediawiki **LocalSettings.php** specify the JIRA Hostname:
