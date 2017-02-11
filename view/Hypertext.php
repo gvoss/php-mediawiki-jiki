@@ -21,13 +21,23 @@ class Hypertext
    */
   function getRenderedView($format,&$data,$args=array())
   {
+    global $jikiRenderDefaults;
     $rView = "";#container for the whole view
+    $rDefTarget = "_BLANK";
+    if(isset($jikiRenderDefaults))#handle render configurations
+    {
+      if(isset($jikiRenderDefaults["html"]["target"]))
+      {
+        #TODO: also allow setting this inline
+        $rDefTarget = "{$jikiRenderDefaults["html"]["target"]}";
+      }
+    }
     foreach($data["data"] as $issue)
     {
       $rIssue = "";#container for an issue
       $rIssue.= self::wrapField($format,"<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/>");
       $rIssue.= self::wrapField($format,"<strong>{$issue["key"]}</strong>");
-      $rIssue.= self::wrapField($format,"<a href=\"".JIRA::getIssueURL($data["host"],$issue["key"])."\" target=\"_BLANK\">{$issue["fields"]["summary"]}</a>");
+      $rIssue.= self::wrapField($format,"<a href=\"".JIRA::getIssueURL($data["host"],$issue["key"])."\" target=\"{$rDefTarget}\">{$issue["fields"]["summary"]}</a>");
       $statusStyle = JIKI_VIEW_HTML_GREY;
       if(isset($issue["fields"]["status"]["statusCategory"]))#JIRA provides color
       {
@@ -76,7 +86,7 @@ class Hypertext
     $rView = self::wrapContainer($format,$rView);
     if(isset($args["renderLink"])&&$args["renderLink"]===true&&sizeof($data["data"])>1)#show link to JIRA
     {
-      $rView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"_BLANK\">view in JIRA</a>";
+      $rView.= "<a href =\"".JIRA::getFilterURL($data["host"],$data["jql"])."\" target=\"{$rDefTarget}\">view in JIRA</a>";
     }
     return $rView;
   }

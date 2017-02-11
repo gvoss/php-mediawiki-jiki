@@ -62,23 +62,34 @@ class Rest
    */
   private function callJIRARest($url,$username,$password,$successCodes=array(200))
   {
-    global $jikiCurlVerifyPeer;
+    global $jikiCurlOpts;
     $curl = curl_init("{$url}");
-    curl_setopt_array(
-      $curl,
-      array
+    $baseOpts = array
       (
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_USERAGENT => JIKI_USERAGENT,
-        CURLOPT_SSL_VERIFYPEER => (isset($jikiCurlVerifyPeer) ? $jikiCurlVerifyPeer : true),
         CURLOPT_HTTPHEADER => array
         (
           "Accept: application/json",
           "Content-Type: application/json",
           "Authorization: Basic ".base64_encode("{$username}:{$password}"),
         ),
-      )
+      );
+    if(isset($jikiCurlOpts))#merge base opts with optional opts
+    {
+      foreach($jikiCurlOpts as $optKey => $curlOpt)
+      {
+        if(isset($baseOpts["{$optKey}"]))
+        {
+          continue;
+        }
+        $baseOpts["{$optKey}"] = $curlOpt;
+      }
+    }
+    curl_setopt_array(
+      $curl,
+      $baseOpts
     );
     $response = curl_exec($curl);
     if(!in_array(curl_getinfo($curl,CURLINFO_HTTP_CODE),$successCodes))

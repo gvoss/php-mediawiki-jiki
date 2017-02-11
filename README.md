@@ -64,7 +64,8 @@ Formatting
 ==========
 The following parameters exist to allow controlling of format:
 
-1. **jikiformat** - allows you to control the formating
+1. **jikiformat** - allows you to control the formating (default: html)
+ 
 ```
 <jira jikiformat="simple"></jira>
 <jira jikiformat="html"></jira>
@@ -75,4 +76,15 @@ The following parameters exist to allow controlling of format:
 1. **jikifulldetails** - allows you to control how much detail is printed to the screen
 ```
 <jira jikifulldetails="true"></jira>
+```
+Advanced Configuration
+======================
+In **LocalSettings.php** you can specify additional Curl Opts to apply:
+```php
+$jikiCurlOpts = array(CURLOPT_SSL_VERIFYPEER => false);
+```
+You can also configure some defaults for the renderers:
+```php
+$jikiRenderDefaults = array();
+$jikiRenderDefaults["html"] = array("target" => "_SELF");
 ```
