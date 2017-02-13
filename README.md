@@ -89,5 +89,9 @@ $jikiCurlOpts = array(CURLOPT_SSL_VERIFYPEER => false);
 You can also configure some defaults for the renderers:
 ```php
 $jikiRenderDefaults = array();
-$jikiRenderDefaults["html"] = array("target" => "_SELF");
+$jikiRenderDefaults["html"] = array("target" => "_self");
 ```
+
+See Also
+========
+[Mediawiki page for JIKI](https://www.mediawiki.org/wiki/Extension:JIKI)
