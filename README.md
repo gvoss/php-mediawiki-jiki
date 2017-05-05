@@ -46,6 +46,10 @@ Or for an advanced user or where the JIKI implementation of JQL is insufficient:
 ```
 <jira jql="project = GO AND reporter in (gvoss)"></jira>
 ```
+If you wish to use greater than (`>`) or less than (`<`) you must escape these:
+```
+<jira jql="project = CAT AND createdDate &gt;= 1970-01-01"></jira>
+```
 Default Filter Fields
 =====================
 1. id - synonymous with key
