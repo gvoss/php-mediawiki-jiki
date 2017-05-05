@@ -15,7 +15,7 @@ class JIRA
    * @param string host the hostname of the JIRA instance
    * @param string key the key of the issue
    */
-  function getIssueURL($host,$key)
+  public static function getIssueURL($host,$key)
   {
     return "{$host}/browse/{$key}";
   }
@@ -25,7 +25,7 @@ class JIRA
    * @param string host the hostname of the JIRA instance
    * @param string jql the jql statement
    */
-  function getFilterURL($host,$jql)
+  public static function getFilterURL($host,$jql)
   {
     return "{$host}/issues/?jql=".urlencode($jql);
   }

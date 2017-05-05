@@ -20,7 +20,7 @@ class JQL
    * @param array args the arguments provided on the <jira> tag
    * @param array params the acceptable arguments to consider on the <jira> tag
    */
-  function getJQL(&$input,&$args,$params)
+  public static function getJQL(&$input,&$args,$params)
   {
     $jql = "";
     $conditions = array();
@@ -111,7 +111,7 @@ class JQL
     }
     return $jql;
   }
-  private function escapeCondition($condition)
+  private static function escapeCondition($condition)
   {
     if(preg_match("/\s/",$condition)>0)
     {

@@ -25,7 +25,7 @@ class Rest
    * @param string password the JIRA API password
    * @param string jql the jql statement
    */
-  function getJIRAData(&$data,$host,$username,$password)
+  public static function getJIRAData(&$data,$host,$username,$password)
   {
     $data["host"] = "{$host}";
     $data["endpoint"] = "{$host}".
@@ -60,7 +60,7 @@ class Rest
    * @param string password the password to use when calling url
    * @param array successCodes the HTTP codes that are considered successful
    */
-  private function callJIRARest($url,$username,$password,$successCodes=array(200))
+  private static function callJIRARest($url,$username,$password,$successCodes=array(200))
   {
     global $jikiCurlOpts;
     $curl = curl_init("{$url}");
@@ -113,7 +113,7 @@ class Rest
    *
    * @param array rawData and array of raw data returned from the endpoint
    */
-  private function cleanData($rawData)
+  private static function cleanData($rawData)
   {
     #TODO: Implement this if SOAP or some other endpoint is to be used
     return $rawData;

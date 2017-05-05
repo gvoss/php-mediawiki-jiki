@@ -19,7 +19,7 @@ class Hypertext
    *
    * @param array data the array of data to be rendered
    */
-  function getRenderedView($format,&$data,$args=array())
+  public static function getRenderedView($format,&$data,$args=array())
   {
     global $jikiRenderDefaults;
     $rView = "";#container for the whole view
@@ -34,6 +34,9 @@ class Hypertext
     }
     foreach($data["data"] as $issue)
     {
+      # TODO: improve this sanitizing
+      $issue["fields"]["summary"] = htmlspecialchars($issue["fields"]["summary"]);
+      $issue["fields"]["description"] = htmlspecialchars($issue["fields"]["description"]);
       $rIssue = "";#container for an issue
       $rIssue.= self::wrapField($format,"<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/>");
       $rIssue.= self::wrapField($format,"<strong>{$issue["key"]}</strong>");
@@ -96,7 +99,7 @@ class Hypertext
    * @param format the format of the html
    * @param markup the markup to wrap
    */
-  private function wrapField($format,$markup)
+  private static function wrapField($format,$markup)
   {
     switch($format)
     {
@@ -119,7 +122,7 @@ class Hypertext
    * @param format the format of the html
    * @param markup the markup to wrap
    */
-  private function wrapIssue($format,$markup)
+  private static function wrapIssue($format,$markup)
   {
     switch($format)
     {
@@ -146,7 +149,7 @@ class Hypertext
    * @param format the format of the html
    * @param markup the markup to wrap
    */
-  private function wrapContainer($format,$markup)
+  private static function wrapContainer($format,$markup)
   {
     switch($format)
     {
