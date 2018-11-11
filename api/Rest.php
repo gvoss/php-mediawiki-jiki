@@ -45,7 +45,6 @@ class Rest
     {
       $data["success"] = true;
       $data["total"] = 0;
-      unset($data["data"]);
       return true;
     }
     $data["data"] = self::cleanData($response["issues"]);

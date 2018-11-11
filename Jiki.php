@@ -75,7 +75,7 @@ function jikiSetHook($parser)
 
 function jikiRender($input,$args,$parser)
 {
-  global $jikiJiraHost,$jikiJiraUser,$jikiJiraPassword,$jikiSupportedParams,$jikiCurlOpts;#Configuration from the LocalSettings
+  global $jikiJiraHost,$jikiJiraUser,$jikiJiraPassword,$jikiSupportedParams,$jikiCurlOpts,$jikiDataContainer;#Configuration from the LocalSettings
   $jikiJQL = "";#jql to send to JIRA
   $jikiOutput = "";#output to the wiki page
   $jikiFormat = "html";#How to format JIKI output
