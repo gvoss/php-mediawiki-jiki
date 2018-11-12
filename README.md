@@ -50,6 +50,16 @@ If you wish to use greater than (`>`) or less than (`<`) you must escape these:
 ```
 <jira jql="project = CAT AND createdDate &gt;= 1970-01-01"></jira>
 ```
+Ordering
+========
+Ordering can be done by using the `orderby` parameter:
+```
+<jira orderby="updateddate ASC"></jira>
+```
+or by including it in your JQL:
+```
+<jira jql="ORDER BY updateddate ASC"></jira>
+```
 Default Filter Fields
 =====================
 1. id - synonymous with key
