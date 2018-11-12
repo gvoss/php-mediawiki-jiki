@@ -92,7 +92,7 @@ class JQL
     {
       array_push($conditions,"(text ~ \"{$input}\")");#TODO: test when a crafty user shoves in a "
     }
-    if(!isset($args["jikiAllowSubtasks"]))
+    if(!isset($args["jikiallowsubtasks"]))
     {
       array_push($conditions,"(issuetype not in subTaskIssueTypes())");
     }

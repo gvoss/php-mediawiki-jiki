@@ -36,11 +36,17 @@ As long as the field is a basic JIRA field or you have configured it in LocalSet
 <jira project="GO,FP,HELP"></jira>
 <jira project="SUPPORT" status="In Progress,!Closed,!Resolved"></jira>
 ```
+Search for text in the issue's text fields:
 ```
 <jira>text to search for</jira>
 ```
+Search multiple fields:
 ```
 <jira project="GO" reporter="gvoss"></jira>
+```
+Allow subtasks to be returned when not using JQL:
+```
+<jira key="ABC-123" jikiAllowSubtasks="true"></jira>
 ```
 Or for an advanced user or where the JIKI implementation of JQL is insufficient:
 ```
