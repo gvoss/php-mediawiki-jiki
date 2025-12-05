@@ -5,7 +5,7 @@ if(!defined("MEDIAWIKI"))
    die(1);
 }
 define("JIKI_USERAGENT","JIKI via MediaWiki");
-define("JIKI_REST_ENDPOINT","/rest/api/2/search");
+define("JIKI_REST_ENDPOINT","/rest/api/3/search/jql");
 define("JIKI_REST_EXPAND","names,renderedFields");
 define("JIKI_REST_FIELDS","summary,description,issuetype,fixVersions,status");
 define("JIKI_REST_MAXRESULTS","250");
@@ -40,12 +40,6 @@ class Rest
       $data["success"] = false;
       unset($data["total"],$data["data"]);
       return false;
-    }
-    if($response["total"]<=0)#no results
-    {
-      $data["success"] = true;
-      $data["total"] = 0;
-      return true;
     }
     $data["data"] = self::cleanData($response["issues"]);
     $data["total"] = sizeof($data["data"]);
