@@ -36,7 +36,7 @@ class Hypertext
     {
       # TODO: improve this sanitizing
       $issue["fields"]["summary"] = htmlspecialchars($issue["fields"]["summary"]);
-      $issue["fields"]["description"] = htmlspecialchars($issue["fields"]["description"]);
+      $issue["fields"]["description"] = htmlspecialchars($issue["renderedFields"]["description"]);
       $rIssue = "";#container for an issue
       $rIssue.= self::wrapField($format,"<img title=\"".$issue["fields"]["issuetype"]["name"].": ".$issue["fields"]["issuetype"]["description"]."\" src=\"".$issue["fields"]["issuetype"]["iconUrl"]."\"/>");
       $rIssue.= self::wrapField($format,"<strong>{$issue["key"]}</strong>");
